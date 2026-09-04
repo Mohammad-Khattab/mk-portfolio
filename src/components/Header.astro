@@ -1,0 +1,45 @@
+---
+---
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="/" class="brand">
+      <span class="name">Mohammad</span>
+      <span class="role">Computer Engineering · PSUT</span>
+    </a>
+    <nav class="site-nav">
+      <a href="/">Index</a>
+      <a href="/#work" data-jump="work">Work</a>
+      <a href="/#about" data-jump="about">About</a>
+      <a href="/#certificates" data-jump="certificates">Certificates</a>
+      <a href="/#contact" data-jump="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const HEADER_OFFSET = 70;
+
+  function scrollToId(id: string) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>("nav.site-nav a[data-jump]").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const id = a.dataset.jump!;
+      if (window.location.pathname === "/") {
+        e.preventDefault();
+        scrollToId(id);
+      }
+      // otherwise: let the browser navigate to /#id normally
+    });
+  });
+
+  // On the homepage, if we arrived with a hash (e.g. from a detail page), scroll with offset.
+  if (window.location.pathname === "/" && window.location.hash) {
+    const id = window.location.hash.slice(1);
+    requestAnimationFrame(() => scrollToId(id));
+  }
+</script>

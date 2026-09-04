@@ -1,0 +1,220 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import RevealScript from "../../components/RevealScript.astro";
+import { PROJECTS, ORDER } from "../../data/projects";
+
+export function getStaticPaths() {
+  return ORDER.map((id) => ({ params: { id } }));
+}
+
+const { id } = Astro.params;
+const p = PROJECTS[id as string];
+const nextId = ORDER[(ORDER.indexOf(p.id) + 1) % ORDER.length];
+const nextProject = PROJECTS[nextId];
+---
+<Layout title={`${p.title} — Mohammad Khattab`} description={p.summary}>
+  <main>
+    <section class="wrap" style="padding:34px 40px 0">
+      <a href="/#work" class="back-link"><span class="rule"></span>Back to index</a>
+    </section>
+
+    <section class="wrap" style="padding:26px 40px 0">
+      <div style="display:flex;align-items:baseline;gap:14px;font-family:'Archivo Narrow',sans-serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3)">
+        <span>{p.index}</span><span style="width:38px;height:1px;background:var(--line-2)"></span><span>{p.kind}</span>
+      </div>
+      <h1 style="margin:18px 0 0;font-weight:900;letter-spacing:-.035em;line-height:.9;font-size:clamp(44px,7.6vw,116px);text-transform:uppercase;overflow:hidden">
+        <span style="display:block;animation:riseIn .9s .04s cubic-bezier(.16,1,.3,1) both">{p.title}</span>
+      </h1>
+      <div style="height:2px;background:var(--ink);transform-origin:left;margin:30px 0 0;animation:ruleDraw 1s .3s cubic-bezier(.16,1,.3,1) both"></div>
+      <div class="hero-grid" style="padding-top:30px;animation:fadeUp .8s .4s cubic-bezier(.2,.8,.2,1) both">
+        <p style="margin:0;font-size:clamp(17px,1.5vw,21px);line-height:1.5;max-width:52ch;text-wrap:pretty;color:var(--ink-2)">{p.summary}</p>
+        <div class="spec-table">
+          {p.specs.map((s) => (
+            <div class="spec-row"><span>{s.k}</span><span>{s.v}</span></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:88px 40px 0">
+      <div class="section-head" data-reveal>
+        <h2>Timeline</h2>
+        <span class="label">Click a stop to open the chapter</span>
+      </div>
+      <div class="timeline-track" data-reveal>
+        <div class="line"></div>
+        <div class="timeline-stops" id="timeline-stops">
+          {p.stops.map((s, i) => (
+            <button class="timeline-stop" data-index={i} aria-current={i === 0 ? "true" : "false"}>
+              <div class="date">{s.date}</div>
+              <div class="dot-row"><span class="dot"></span></div>
+              <div class="body">
+                <div class="label" style="color:var(--ink)">{s.label}</div>
+                <div class="teaser">{s.teaser}</div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {p.stops.map((s, i) => (
+          <div class="chapter-panel" data-panel={i} data-active={i === 0 ? "" : undefined}>
+            <div>
+              <div class="date">{s.date}</div>
+              <h3>{s.label}</h3>
+            </div>
+            <div>
+              <p>{s.body}</p>
+              <div class="chapter-notes">
+                {s.notes.map((n) => (
+                  <div><span>—</span><span>{n}</span></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:88px 40px 0">
+      <div class="section-head" data-reveal>
+        <h2>Milestones</h2>
+        <div style="display:flex;gap:8px">
+          <button class="carousel-btn" id="carousel-prev" aria-label="Previous milestone">←</button>
+          <button class="carousel-btn" id="carousel-next" aria-label="Next milestone">→</button>
+        </div>
+      </div>
+      <div class="carousel" data-reveal>
+        <button class="side-card" id="carousel-side-prev">
+          <div class="year"></div>
+          <div class="title"></div>
+          <div class="tagline"></div>
+        </button>
+        <div class="center-card" id="carousel-center">
+          <div class="top-row">
+            <span class="year-badge"></span>
+            <span class="counter"></span>
+          </div>
+          <h3></h3>
+          <div class="tags"></div>
+          <p></p>
+          <div class="highlight"><span class="k">Highlight:</span><span class="v"></span></div>
+        </div>
+        <button class="side-card" id="carousel-side-next">
+          <div class="year"></div>
+          <div class="title"></div>
+          <div class="tagline"></div>
+        </button>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:88px 40px 0">
+      <div class="split-2" data-reveal>
+        <div>
+          <h2>What broke</h2>
+          <div style="display:grid;border-top:1px solid var(--line)">
+            {p.challenges.map((c) => (
+              <div class="challenge-row">
+                <div class="q">{c.q}</div>
+                <div class="a">{c.a}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2>From the repo</h2>
+          <div class="code-panel">
+            <div class="file">{p.codeFile}</div>
+            <pre>{p.code}</pre>
+          </div>
+          <div class="stack-table">
+            {p.stack.map((s) => (
+              <div><span>{s.k}</span><span>{s.v}</span></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding:80px 40px 96px">
+      <a href={`/projects/${nextProject.id}/`} class="next-project" data-reveal>
+        <div>
+          <div class="kicker">Next project</div>
+          <div class="title">{nextProject.title}</div>
+        </div>
+        <div class="open">Open →</div>
+      </a>
+    </section>
+  </main>
+  <RevealScript />
+
+  <script type="application/json" id="slides-data" set:html={JSON.stringify(p.slides)} />
+  <script>
+    // ── Timeline ──
+    const stopButtons = document.querySelectorAll<HTMLButtonElement>(".timeline-stop");
+    const panels = document.querySelectorAll<HTMLDivElement>(".chapter-panel");
+    stopButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = btn.dataset.index;
+        stopButtons.forEach((b) => b.setAttribute("aria-current", b === btn ? "true" : "false"));
+        panels.forEach((p) => {
+          if (p.dataset.panel === idx) p.setAttribute("data-active", "");
+          else p.removeAttribute("data-active");
+        });
+      });
+    });
+
+    // ── Milestones carousel ──
+    interface Slide {
+      year: string; title: string; tagline: string; tags: string[]; body: string; highlight: string;
+    }
+    const slidesEl = document.getElementById("slides-data");
+    const slides: Slide[] = JSON.parse(slidesEl?.textContent || "[]");
+    const n = slides.length;
+    let current = 0;
+    let dir = 1;
+
+    const at = (k: number) => slides[((k % n) + n) % n];
+
+    const centerCard = document.getElementById("carousel-center")!;
+    const sidePrev = document.getElementById("carousel-side-prev")!;
+    const sideNext = document.getElementById("carousel-side-next")!;
+
+    function renderSide(el: HTMLElement, slide: Slide) {
+      el.querySelector(".year")!.textContent = slide.year;
+      el.querySelector(".title")!.textContent = slide.title;
+      el.querySelector(".tagline")!.textContent = slide.tagline;
+    }
+
+    function renderCenter() {
+      const s = at(current);
+      centerCard.querySelector(".year-badge")!.textContent = s.year;
+      centerCard.querySelector(".counter")!.textContent = `${current + 1} / ${n}`;
+      centerCard.querySelector("h3")!.textContent = s.title;
+      centerCard.querySelector(".tags")!.innerHTML = s.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+      centerCard.querySelector("p")!.textContent = s.body;
+      centerCard.querySelector(".highlight .v")!.textContent = s.highlight;
+
+      centerCard.classList.remove("carousel-anim-r", "carousel-anim-l");
+      // force reflow so the animation replays
+      void centerCard.offsetWidth;
+      centerCard.classList.add(dir < 0 ? "carousel-anim-l" : "carousel-anim-r");
+    }
+
+    function render() {
+      renderSide(sidePrev, at(current - 1));
+      renderSide(sideNext, at(current + 1));
+      renderCenter();
+    }
+
+    document.getElementById("carousel-prev")!.addEventListener("click", () => {
+      dir = -1; current = (current - 1 + n) % n; render();
+    });
+    document.getElementById("carousel-next")!.addEventListener("click", () => {
+      dir = 1; current = (current + 1) % n; render();
+    });
+    sidePrev.addEventListener("click", () => { dir = -1; current = (current - 1 + n) % n; render(); });
+    sideNext.addEventListener("click", () => { dir = 1; current = (current + 1) % n; render(); });
+
+    render();
+  </script>
+</Layout>
