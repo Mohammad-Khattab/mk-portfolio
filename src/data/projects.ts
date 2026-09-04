@@ -27,12 +27,12 @@ export const PROJECTS: Record<string, Project> = {
     title: "Homelab",
     glyph: "🖥️",
     summary:
-      "A 2-node Proxmox lab I'm building from the ground up to actually understand hypervisors, storage and networking — not just following a video. Right now it blocks ads and adult content network-wide with Pi-hole; the rest of the wishlist (VPN, file storage, Jellyfin, a Minecraft server, Home Assistant) is still in progress.",
+      "A 2-node Proxmox lab I'm building from the ground up to actually understand hypervisors, storage and networking — not just following a video. It blocks ads and adult content network-wide with Pi-hole, backs up photos through Immich, and surfaces everything through a Homepage dashboard; VPN, a second node, Jellyfin, a Minecraft server, and Home Assistant are still on the wishlist.",
     specs: [
       { k: "Role", v: "Design, build, ops" },
       { k: "Started", v: "2026" },
       { k: "Nodes", v: "2 — desktop + laptop" },
-      { k: "Status", v: "DNS filtering live" },
+      { k: "Status", v: "Pi-hole, Immich, Homepage live" },
     ],
     stops: [
       {
@@ -81,13 +81,23 @@ export const PROJECTS: Record<string, Project> = {
       },
       {
         date: "Now",
+        label: "Immich + Homepage",
+        teaser: "Self-hosted photo backup and a dashboard to find it all.",
+        body: "Deployed Immich for photo and video backup — the real answer to the backup problem the striped hdd-pool created — plus Homepage as a single dashboard for finding and jumping into every service running on the node.",
+        notes: [
+          "Immich replaces ad-hoc phone-photo backups with something self-hosted",
+          "Homepage is the first thing that opens when I need to check on the lab",
+        ],
+      },
+      {
+        date: "Next",
         label: "Second node & VPN",
         teaser: "Reverse proxy, backups, and remote access, still pending.",
         body: "The second node — an older laptop — isn't set up yet. Planned role is a reverse proxy plus a backup target for the main node's data. WireGuard is installed on the main node but not configured, and the router still isn't pointed at Pi-hole by default.",
         notes: [
           "Next: WireGuard VPN for remote access",
           "Next: router-wide DNS so filtering doesn't require manual per-device setup",
-          "Still on the list: Jellyfin, file/photo storage, a Minecraft server, Home Assistant",
+          "Still on the list: Jellyfin, a Minecraft server, Home Assistant",
         ],
       },
     ],
@@ -96,10 +106,11 @@ export const PROJECTS: Record<string, Project> = {
       { year: "2026", title: "Storage split", tagline: "ssd-pool (fast) + hdd-pool (bulk)", tags: ["ZFS"], body: "Split disks into a fast SSD pool for app state and a striped HDD pool for bulk data.", highlight: "Learned the hard way that striped means no redundancy." },
       { year: "2026", title: "AdGuard live", tagline: "First network-wide ad blocking", tags: ["AdGuard Home"], body: "Stood up DNS-level ad blocking for the whole network for the first time.", highlight: "First service other people in the house actually relied on." },
       { year: "Sep 2026", title: "Pi-hole migration", tagline: "Ads + parental controls, ~4.4M domains", tags: ["Pi-hole", "DNS"], body: "Tore down AdGuard and rebuilt filtering on Pi-hole after running into parental-control gaps, verified live via direct DNS queries.", highlight: "Migrated onto the exact same static IP so nothing else broke." },
+      { year: "Now", title: "Immich + Homepage", tagline: "Photo backup and a service dashboard", tags: ["Immich", "Homepage"], body: "Deployed Immich for self-hosted photo and video backup and Homepage as a single dashboard for the lab's services.", highlight: "The first two user-facing apps running on top of the storage and DNS work." },
       { year: "Next", title: "VPN & node 2", tagline: "WireGuard + a reverse-proxy laptop", tags: ["WireGuard", "Planned"], body: "Configuring remote access and standing up the second node as a reverse proxy and backup target.", highlight: "The next concrete milestone, not yet done." },
     ],
     challenges: [
-      { q: "Striped storage has no redundancy", a: "hdd-pool stripes two drives for capacity. If either one dies, everything on it is gone — fine for replaceable media, but anything I actually can't lose (like photos, once Immich exists) needs its own backup plan." },
+      { q: "Striped storage has no redundancy", a: "hdd-pool stripes two drives for capacity. If either one dies, everything on it is gone — fine for replaceable media, but that's exactly why photos now live behind Immich instead of just a folder on the striped pool. Immich itself still needs a real backup plan, since striping isn't redundancy." },
       { q: "AdGuard didn't cover parental controls well", a: "Rather than trying to bolt extra blocklists onto AdGuard, I fully destroyed the container and rebuilt DNS filtering on Pi-hole, which handled ad blocking and parental-control filtering cleanly in one place." },
       { q: "The router still doesn't know Pi-hole exists", a: "I don't have admin access to the router yet, so filtering only applies to devices I've manually pointed at the Pi-hole IP — getting the whole network covered automatically is still open." },
     ],
@@ -109,6 +120,8 @@ export const PROJECTS: Record<string, Project> = {
       { k: "Hypervisor", v: "Proxmox VE 9.2.11" },
       { k: "Storage", v: "ZFS — ssd-pool + hdd-pool" },
       { k: "DNS", v: "Pi-hole v6, ~4.4M domains blocked" },
+      { k: "Photos", v: "Immich" },
+      { k: "Dashboard", v: "Homepage" },
       { k: "Next", v: "WireGuard VPN, reverse-proxy node" },
     ],
   },
