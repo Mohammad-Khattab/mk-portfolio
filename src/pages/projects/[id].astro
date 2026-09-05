@@ -190,7 +190,15 @@ const nextProject = PROJECTS[nextId];
       centerCard.querySelector(".year-badge")!.textContent = s.year;
       centerCard.querySelector(".counter")!.textContent = `${current + 1} / ${n}`;
       centerCard.querySelector("h3")!.textContent = s.title;
-      centerCard.querySelector(".tags")!.innerHTML = s.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+      const tagsEl = centerCard.querySelector(".tags")!;
+      tagsEl.replaceChildren(
+        ...s.tags.map((t) => {
+          const span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = t;
+          return span;
+        })
+      );
       centerCard.querySelector("p")!.textContent = s.body;
       centerCard.querySelector(".highlight .v")!.textContent = s.highlight;
 
