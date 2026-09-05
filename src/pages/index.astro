@@ -3,9 +3,18 @@ import Layout from "../layouts/Layout.astro";
 import RevealScript from "../components/RevealScript.astro";
 import { PROJECTS, ORDER } from "../data/projects";
 import { CERTIFICATES } from "../data/certificates";
+import { REPOS } from "../data/repos";
 import { SITE } from "../data/site";
 
 const projects = ORDER.map((id) => PROJECTS[id]);
+
+// figlet "Standard" font rendering of MKLL — generated with the figlet
+// library, not hand-typed, so the block alignment is actually correct.
+const ASCII_MKLL = `  __  __ _  ___     _
+ |  \\/  | |/ / |   | |
+ | |\\/| | ' /| |   | |
+ | |  | | . \\| |___| |___
+ |_|  |_|_|\\_\\_____|_____|`;
 ---
 <Layout title="Mohammad Khattab — Edge Intelligence Engineer">
   <main>
@@ -57,6 +66,49 @@ const projects = ORDER.map((id) => PROJECTS[id]);
       </div>
     </section>
 
+    <section id="archive" class="wrap" style="padding:0 40px 40px" data-reveal>
+      <button
+        type="button"
+        class="archive-trigger"
+        id="archive-trigger"
+        aria-expanded="false"
+        aria-controls="archive-drawer"
+      >
+        <span>mohammad@portfolio:~$ github_archive.sh --list-all</span>
+        <span class="label" data-archive-label>Expand Archive ▾</span>
+      </button>
+      <div class="archive-drawer" id="archive-drawer" inert>
+        <div class="archive-drawer-inner">
+          <div class="code-panel archive-panel">
+            <div class="file">Mohammad Khattab · GitHub Archive</div>
+            <div class="archive-terminal" id="archive-terminal">
+              <div class="archive-typewriter-line">
+                <span aria-hidden="true">mkll@archive:~$&nbsp;</span>
+                <span class="archive-typewriter" id="archive-typewriter">figlet MKLL</span>
+              </div>
+              <pre class="archive-ascii" aria-hidden="true">{ASCII_MKLL}</pre>
+            </div>
+            <div class="archive-list" id="archive-list">
+              {REPOS.map((r) => (
+                <a
+                  class="archive-row"
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="archive-row-name">{r.name}</span>
+                  <span class="archive-row-desc">{r.description}</span>
+                  <span class="tag tag-dark">{r.language}</span>
+                  <span class="archive-row-stars">★ {r.stars}</span>
+                  <span class="archive-row-link" aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="about" class="wrap" style="padding:88px 40px">
       <div data-reveal class="about-grid" style="border-top:2px solid var(--ink);padding-top:26px">
         <div>
@@ -90,6 +142,12 @@ const projects = ORDER.map((id) => PROJECTS[id]);
             ) : (
               <span style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)">{c.status}</span>
             )}
+            {c.image && (
+              <span class="cert-preview" aria-hidden="true">
+                <img src={c.image} alt="" loading="lazy" />
+                <span class="cert-preview-cap">{c.url ? "View credential" : "Verified"}</span>
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -111,9 +169,58 @@ const projects = ORDER.map((id) => PROJECTS[id]);
     </section>
   </main>
   <RevealScript />
+
+  <script>
+    // ── Certificates hover accent ──
+    // Capture the cursor's entry point once per hover (not on every
+    // mousemove) and expose it as CSS vars so the preview card in
+    // global.css (.cert-preview) can position itself there via CSS alone.
+    document.querySelectorAll<HTMLElement>(".cert-row").forEach((row) => {
+      row.addEventListener("mouseenter", (e) => {
+        const rect = row.getBoundingClientRect();
+        row.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+        row.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      });
+    });
+
+    // ── GitHub archive drawer ──
+    // Pure-CSS grid-rows transition handles the open/close animation (see
+    // .archive-drawer in global.css); this just flips the state classes,
+    // aria-expanded, and `inert` (so collapsed content can't be tabbed into).
+    const archiveTrigger = document.getElementById("archive-trigger") as HTMLButtonElement | null;
+    const archiveDrawer = document.getElementById("archive-drawer") as HTMLDivElement | null;
+    const archiveLabel = archiveTrigger?.querySelector<HTMLElement>("[data-archive-label]");
+    const archiveTerminal = document.getElementById("archive-terminal") as HTMLElement | null;
+
+    archiveTrigger?.addEventListener("click", () => {
+      const wasOpen = archiveTrigger.getAttribute("aria-expanded") === "true";
+      const nowOpen = !wasOpen;
+
+      archiveTrigger.setAttribute("aria-expanded", String(nowOpen));
+      archiveDrawer?.classList.toggle("is-open", nowOpen);
+      if (nowOpen) {
+        archiveDrawer?.removeAttribute("inert");
+      } else {
+        archiveDrawer?.setAttribute("inert", "");
+      }
+      if (archiveLabel) {
+        archiveLabel.textContent = nowOpen ? "Collapse Archive ▴" : "Expand Archive ▾";
+      }
+
+      // Replay the typing + ASCII-print animation each time the drawer
+      // opens — they're CSS animations, so without this they'd only ever
+      // play once (on page load, hidden behind the closed drawer) and
+      // never be seen again. Re-triggering requires actually removing and
+      // re-adding the class with a reflow in between, not just toggling it.
+      if (nowOpen && archiveTerminal) {
+        archiveTerminal.classList.remove("is-typing");
+        void archiveTerminal.offsetWidth;
+        archiveTerminal.classList.add("is-typing");
+      }
+    });
+  </script>
 </Layout>
 
 <style>
-  .site-nav a:hover, a:hover { color: var(--ink); }
   #contact a:hover { border-bottom-color: var(--paper) !important; }
 </style>

@@ -1,0 +1,17 @@
+---
+---
+<script>
+  import Lenis from "lenis";
+
+  // Respect the user's motion preference: skip Lenis entirely and let the
+  // browser fall back to plain native scrolling (same rule the rest of the
+  // site uses, see the prefers-reduced-motion block in global.css).
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!prefersReducedMotion) {
+    const lenis = new Lenis({ autoRaf: true });
+    // Exposed so other site-wide scripts (Header's anchor-jump) can drive
+    // scroll-to through Lenis instead of fighting it with raw window.scrollTo.
+    (window as any).__lenis = lenis;
+  }
+</script>

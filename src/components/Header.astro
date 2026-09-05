@@ -22,8 +22,18 @@
   function scrollToId(id: string) {
     const el = document.getElementById(id);
     if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-    window.scrollTo({ top, behavior: "smooth" });
+
+    // When Lenis is running (see SmoothScroll.astro), drive the jump through
+    // its own scrollTo so it animates smoothly instead of fighting a raw
+    // window.scrollTo call. Falls back to native smooth scroll otherwise
+    // (Lenis is skipped under prefers-reduced-motion, or hasn't loaded yet).
+    const lenis = (window as any).__lenis;
+    if (lenis) {
+      lenis.scrollTo(el, { offset: -HEADER_OFFSET });
+    } else {
+      const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
   }
 
   document.querySelectorAll<HTMLAnchorElement>("nav.site-nav a[data-jump]").forEach((a) => {
