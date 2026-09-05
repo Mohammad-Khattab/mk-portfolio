@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Background from "../components/Background.astro";
 import Header from "../components/Header.astro";
 import SmoothScroll from "../components/SmoothScroll.astro";
+import { SITE } from "../data/site";
 
 interface Props {
   title: string;
@@ -13,6 +14,13 @@ const {
   title,
   description = "Portfolio of Mohammad, a Computer Engineering student at PSUT working at the edge of AI, software, and hardware.",
 } = Astro.props;
+
+// Without an explicit og:image, link-unfurling bots (LinkedIn, Slack, etc.)
+// fall back to grabbing the first <img> on the page — which on this site
+// was a certificate photo from the Certificates section. This pins a real,
+// on-brand social preview image instead.
+const ogImage = new URL("/og-image.jpg", SITE.url).toString();
+const canonicalUrl = new URL(Astro.url.pathname, SITE.url).toString();
 ---
 <!doctype html>
 <html lang="en">
@@ -20,9 +28,20 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
   <body>
     <Background />
