@@ -276,9 +276,15 @@ main h1 {
   border-bottom: 1px solid var(--line);
   transition: background 0.3s ease, padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.cert-row:hover {
-  background: rgba(255, 255, 255, 0.6);
-  padding-left: 10px;
+/* Hover-only interactions (row highlight + photo preview) are scoped to
+   devices that actually have a real pointer. On touch, tapping triggers
+   :hover with no corresponding "leave" event to clear it, so the effect
+   gets stuck on whatever was last tapped — janky, not "hover" at all. */
+@media (hover: hover) and (pointer: fine) {
+  .cert-row:hover {
+    background: rgba(255, 255, 255, 0.6);
+    padding-left: 10px;
+  }
 }
 
 /* Certificate preview card — a small framed photo of the actual credential
@@ -318,9 +324,11 @@ main h1 {
   color: var(--ink-3);
   text-align: center;
 }
-.cert-row:hover .cert-preview {
-  opacity: 1;
-  transform: translate(-50%, calc(-100% - 16px)) scale(1);
+@media (hover: hover) and (pointer: fine) {
+  .cert-row:hover .cert-preview {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 16px)) scale(1);
+  }
 }
 
 /* ── Nav ── */
