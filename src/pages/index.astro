@@ -20,7 +20,7 @@ const ASCII_MKLL = `  __  __ _  ___     _
   <main>
     <section class="wrap" style="padding:96px 40px 56px">
       <div style="display:flex;align-items:baseline;gap:14px;font-family:'Archivo Narrow',sans-serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-3);animation:fadeUp .7s .1s cubic-bezier(.2,.8,.2,1) both">
-        <span>Amman, Jordan</span><span style="width:38px;height:1px;background:var(--line-2)"></span><span>Year 02 / 04</span>
+        <span>Amman, Jordan</span><span style="width:38px;height:1px;background:var(--line-2)"></span><span>Year 02 / 05</span>
       </div>
       <h1 style="margin:22px 0 0;font-weight:900;letter-spacing:-.035em;line-height:.9;font-size:clamp(48px,8.4vw,132px);text-transform:uppercase">
         <span style="display:block;overflow:hidden;padding-bottom:.02em"><span style="display:block;animation:riseIn 1s .05s cubic-bezier(.16,1,.3,1) both">Edge</span></span>
@@ -30,12 +30,12 @@ const ASCII_MKLL = `  __  __ _  ___     _
       <div style="height:2px;background:var(--ink);transform-origin:left;margin:38px 0 0;animation:ruleDraw 1.1s .5s cubic-bezier(.16,1,.3,1) both"></div>
       <div class="hero-grid" style="padding-top:34px;animation:fadeUp .8s .62s cubic-bezier(.2,.8,.2,1) both">
         <p style="margin:0;font-size:clamp(17px,1.55vw,22px);line-height:1.5;max-width:46ch;text-wrap:pretty;color:var(--ink-2)">
-          I am Mohammad, a second-year Computer Engineering student at Princess Sumaya University for Technology. I work where AI meets software and hardware: models that run on the device, servers I maintain myself, and circuits I solder at my desk. This is the running record of what I build.
+          I am Mohammad, a second-year Computer Engineering student at Princess Sumaya University for Technology. I work where AI meets software and hardware: web apps I ship to real users, servers I run myself, and circuits I wire at my desk. This is the running record of what I build.
         </p>
         <div class="spec-table">
           <div class="spec-row"><span>Focus</span><span>Edge / Embedded AI</span></div>
           <div class="spec-row"><span>Stack</span><span>C · Python · Linux</span></div>
-          <div class="spec-row"><span>Hardware</span><span>ESP32 · Pi · Proxmox</span></div>
+          <div class="spec-row"><span>Hardware</span><span>Arduino · Proxmox</span></div>
           <div class="spec-row"><span>Status</span><span>Open to internships</span></div>
         </div>
       </div>
@@ -44,7 +44,7 @@ const ASCII_MKLL = `  __  __ _  ___     _
     <section id="work" class="wrap" style="padding:96px 40px 40px">
       <div class="section-head" data-reveal>
         <h2>Selected work</h2>
-        <span class="label">Four projects · click to open documentation</span>
+        <span class="label">Six projects · click to open documentation</span>
       </div>
       <div class="work-grid">
         {projects.map((p) => (
@@ -116,10 +116,10 @@ const ASCII_MKLL = `  __  __ _  ___     _
           <div style="width:180px;height:1px;background:var(--line-2)"></div>
         </div>
         <div style="display:grid;gap:26px">
-          <p style="margin:0;font-size:18px;line-height:1.55;max-width:56ch;text-wrap:pretty;color:var(--ink-2)">The goal is AI systems engineering: models that ship on constrained hardware, where the interesting problems are latency, memory, thermals and power rather than another API call. Year one is the foundation — C, digital logic, Linux internals — and the projects here are how I stay ahead of the syllabus.</p>
+          <p style="margin:0;font-size:18px;line-height:1.55;max-width:56ch;text-wrap:pretty;color:var(--ink-2)">The goal is AI systems engineering: models that ship on constrained hardware, where the interesting problems are latency, memory, thermals and power rather than another API call. The first years are the foundation — C, digital logic, Linux internals — and the projects here are how I stay ahead of the syllabus.</p>
           <div class="goals-grid" style="border-top:1px solid var(--line)">
-            <div style="padding:16px 18px 16px 0;border-right:1px solid var(--line)"><div class="label" style="margin-bottom:8px">Now</div><div style="font-size:15px;line-height:1.45">Pi-hole DNS filtering live; Jarvis Phase 2 data cleaning</div></div>
-            <div style="padding:16px 18px;border-right:1px solid var(--line)"><div class="label" style="margin-bottom:8px">Next</div><div style="font-size:15px;line-height:1.45">Homelab VPN, second node, Anthropic Academy</div></div>
+            <div style="padding:16px 18px 16px 0;border-right:1px solid var(--line)"><div class="label" style="margin-bottom:8px">Now</div><div style="font-size:15px;line-height:1.45">Harakeh live with testers; homelab assistant in daily use</div></div>
+            <div style="padding:16px 18px;border-right:1px solid var(--line)"><div class="label" style="margin-bottom:8px">Next</div><div style="font-size:15px;line-height:1.45">Clap trigger to PC, second homelab node, Harakeh map performance</div></div>
             <div style="padding:16px 0 16px 18px"><div class="label" style="margin-bottom:8px">Later</div><div style="font-size:15px;line-height:1.45">Edge inference at silicon-adjacent scale</div></div>
           </div>
         </div>

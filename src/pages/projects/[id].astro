@@ -30,7 +30,9 @@ const nextProject = PROJECTS[nextId];
         <p style="margin:0;font-size:clamp(17px,1.5vw,21px);line-height:1.5;max-width:52ch;text-wrap:pretty;color:var(--ink-2)">{p.summary}</p>
         <div class="spec-table">
           {p.specs.map((s) => (
-            <div class="spec-row"><span>{s.k}</span><span>{s.v}</span></div>
+            <div class="spec-row"><span>{s.k}</span><span>{s.href ? (
+              <a href={s.href} target="_blank" rel="noopener noreferrer" class="spec-link">{s.v} ↗</a>
+            ) : s.v}</span></div>
           ))}
         </div>
       </div>

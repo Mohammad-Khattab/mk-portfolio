@@ -246,6 +246,14 @@ a:hover {
   font-weight: 700;
   text-align: right;
 }
+.spec-link {
+  color: inherit;
+  border-bottom: 1px solid var(--line-2);
+  transition: border-color 0.2s ease;
+}
+.spec-link:hover {
+  border-bottom-color: var(--ink);
+}
 
 .hero-grid {
   display: grid;
