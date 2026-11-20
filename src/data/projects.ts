@@ -544,11 +544,11 @@ export const PROJECTS: Record<string, Project> = {
         date: "Jun 2026",
         label: "Parts & build",
         teaser: "An all-black mATX build.",
-        body: "Put together an all-black mATX build: a Ryzen 5 9600X on a Gigabyte B860M Gaming motherboard, a Sapphire NITRO+ RX 9060 XT, 32GB of RAM, all inside a Thermalright TL-M10 VISION case with a 360mm AIO.",
+        body: "Put together an all-black mATX build: a Ryzen 5 9600X on a Gigabyte B850M Gaming X WiFi6E motherboard, a Sapphire NITRO+ RX 9060 XT, 32GB of RAM, all inside a Thermalright TL-M10 VISION case with a 360mm AIO.",
         notes: [
           "CPU: AMD Ryzen 5 9600X",
           "GPU: Sapphire NITRO+ RX 9060 XT",
-          "Motherboard: Gigabyte B860M Gaming",
+          "Motherboard: Gigabyte B850M Gaming X WiFi6E",
         ],
       },
       {
@@ -609,7 +609,7 @@ export const PROJECTS: Record<string, Project> = {
     stack: [
       { k: "CPU", v: "AMD Ryzen 5 9600X" },
       { k: "GPU", v: "Sapphire NITRO+ RX 9060 XT" },
-      { k: "Motherboard", v: "Gigabyte B860M Gaming" },
+      { k: "Motherboard", v: "Gigabyte B850M Gaming X WiFi6E" },
       { k: "Cooling", v: "Thermalright Peerless Vision 360 AIO" },
     ],
   },
